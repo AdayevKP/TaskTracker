@@ -1,0 +1,163 @@
+@import 'normalize.scss';
+
+@font-face {
+    font-family: 'Neue Machina Regular';
+    src: url('../fonts/NeueMachina/NeueMachina-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Neue Machina Ultrabold';
+    src: url('../fonts/NeueMachina/NeueMachina-Ultrabold.ttf');
+}
+
+@font-face {
+    font-family: 'Neue Machina Light';
+    src: url('../fonts/NeueMachina/NeueMachina-Light.ttf');
+}
+
+@mixin font-regular {
+    font-family: 'Neue Machina Regular';
+    font-size: 18px;
+    line-height: 20px;
+    color: #C9C9C9;
+}
+
+@mixin font-ultrabold {
+    font-family: 'Neue Machina Ultrabold';
+    font-size: 18px;
+    line-height: 20px;
+}
+
+@mixin font-light {
+    font-family: 'Neue Machina Light';
+    font-size: 24px;
+    line-height: 20px;
+    color: #C9C9C9;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+button {
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+
+.menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 10px;
+    height: 40px;
+
+    .left-menu {
+        margin: 0px;
+        @include font-ultrabold;
+
+
+        .menu-batton {
+            width: 40px;
+            height: 40px;
+            @include font-ultrabold;
+            color: #C9C9C9;
+            border: 1px solid #C9C9C9;
+        }
+
+        .tasks {
+            padding: 0 10px 0;
+            
+
+            .task-batton {
+                width: 120px;
+                height: 40px;
+                
+            }
+            
+            .task-batton + .task-batton {
+                margin-left: 5px;
+            }
+        }
+
+        .add {
+            
+            border: 1px solid #C9C9C9;
+            padding-bottom: 5px;
+        }
+    }
+
+    .right-menu {
+        margin: 0px;
+        
+        .stop-batton {
+            @include font-regular;
+            width: 120px;
+            height: 40px;
+            margin-left: 10px;
+            color: #C9C9C9;
+            border: 1px solid #C9C9C9;
+        }
+        
+        .timer {
+            @include font-light;
+            align-self: center;
+        }
+    }
+}
+
+.line {
+    height: 1px;
+    background-color: #C9C9C9;
+    margin: 0 10px 0;
+}
+
+.results {
+    margin: 0 10px 0;
+
+    .day-1 {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        height: 60px;
+
+        .data {
+            @include font-ultrabold;
+            text-align: center;
+            padding-left: 6px;
+            padding-right: 5px;
+            font-size: 20px;
+            color: #C9C9C9;
+        }
+
+        .task-work {
+            @include font-ultrabold;
+            font-size: 20px;
+            color: #ffffff;
+            height: 40px;
+            width: 300px;
+            border-radius: 10px;
+            background-color: #fccf50;
+            margin-left: 10px;
+            padding: 8px 10px 0 0;
+            text-align: end;
+        }
+
+        .task-study {
+            @include font-ultrabold;
+            font-size: 20px;
+            color: #ffffff;
+            height: 40px;
+            width: 140px;
+            border-radius: 10px;
+            background-color: #B4E5CD;
+            margin-left: 10px;
+            padding: 8px 10px 0 0;
+            text-align: end;
+        }
+    }
+
+    .dayline {
+        height: 1px;
+    background-color: #C9C9C9;
+    }
+}

@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './tools/serviceWorker';
-import getMainPage from './ui/mainPage';
+import getMainPage from './ui/mainPage/mainPage';
 
 ReactDOM.render(
   getMainPage(),
