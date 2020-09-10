@@ -24,7 +24,7 @@ export default function getMainPage() {
                 <div class="tasks">
                     {
                     Array.from(getTasks(), el => 
-                    (<button class="task-batton" style={{color: el.color, border: '2px solid' + ' ' + el.color}}>
+                    (<button class="task-batton" style={{color: el.color, border: '2px solid ' + el.color}}>
                         {el.name}
                     </button>))
                     }
