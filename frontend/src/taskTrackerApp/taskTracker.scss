@@ -2,17 +2,17 @@
 
 @font-face {
     font-family: 'Neue Machina Regular';
-    src: url('../fonts/NeueMachina/NeueMachina-Regular.ttf');
+    src: url('./fonts/NeueMachina/NeueMachina-Regular.ttf');
 }
 
 @font-face {
     font-family: 'Neue Machina Ultrabold';
-    src: url('../fonts/NeueMachina/NeueMachina-Ultrabold.ttf');
+    src: url('./fonts/NeueMachina/NeueMachina-Ultrabold.ttf');
 }
 
 @font-face {
     font-family: 'Neue Machina Light';
-    src: url('../fonts/NeueMachina/NeueMachina-Light.ttf');
+    src: url('./fonts/NeueMachina/NeueMachina-Light.ttf');
 }
 
 @mixin font-regular {
@@ -114,7 +114,7 @@ button {
 .results {
     margin: 0 10px 0;
 
-    .day-1 {
+    .day {
         display: flex;
         justify-content: flex-start;
         align-items: center;
@@ -129,7 +129,7 @@ button {
             color: #C9C9C9;
         }
 
-        .task-work {
+        .task{
             @include font-ultrabold;
             font-size: 20px;
             color: #ffffff;
@@ -137,19 +137,6 @@ button {
             width: 300px;
             border-radius: 10px;
             background-color: #fccf50;
-            margin-left: 10px;
-            padding: 8px 10px 0 0;
-            text-align: end;
-        }
-
-        .task-study {
-            @include font-ultrabold;
-            font-size: 20px;
-            color: #ffffff;
-            height: 40px;
-            width: 140px;
-            border-radius: 10px;
-            background-color: #B4E5CD;
             margin-left: 10px;
             padding: 8px 10px 0 0;
             text-align: end;
