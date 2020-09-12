@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import * as serviceWorker from './tools/serviceWorker';
 import TaskTracker from './taskTrackerApp/taskTracker'
 
-import bindMethods from './tools/bindMesthods'
+import bindMethods from './tools/bindMethods'
 
 class App extends Component {
   constructor(){

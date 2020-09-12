@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'; 
 import './taskTracker.scss';
 
-import bindMethods from '../tools/bindMesthods'
+import bindMethods from '../tools/bindMethods'
 
 
 class TaskTrackerUi{
