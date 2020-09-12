@@ -2,8 +2,9 @@ import TaskTrackerUi from './taskTrackerUi'
 
 
 class TaskTracker{
-    constructor() {
-        this.ui = new TaskTrackerUi(this)
+    constructor(path) {
+        this.ui = new TaskTrackerUi(this, path)
+        this.path = path
     }
 
 

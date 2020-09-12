@@ -2,17 +2,21 @@ import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'; 
 import './taskTracker.scss';
 
+import bindMethods from '../tools/bindMesthods'
+
 
 class TaskTrackerUi{
-    constructor(model){
+    constructor(model, path){
         this.model = model
+        this.path = path
+        bindMethods(this)
     }
 
     render() {
         const html = 
         <Router>
             <div>
-                <Route exact path="/" component={() => this.getMainPage()} />
+                <Route exact path={this.path} component={this.getMainPage} />
             </div>
         </Router>
 

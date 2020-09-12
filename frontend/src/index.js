@@ -1,21 +1,37 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route } from 'react-router-dom';  
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';  
 import * as serviceWorker from './tools/serviceWorker';
 import TaskTracker from './taskTrackerApp/taskTracker'
 
+import bindMethods from './tools/bindMesthods'
 
 class App extends Component {
   constructor(){
-    super();
-    this.taskTarckerApp = new TaskTracker()
+    super()
+    this.authorized = true
+    this.taskTarckerApp = new TaskTracker('/')
+
+    bindMethods(this)
+  }
+
+  checkAuthorization(func){
+    if (this.authorized) {
+      return func
+    } else {
+      return (..._) => (<Redirect to='/login' />)
+    }
+  }
+
+  taskTrackerComponent(){
+    return this.checkAuthorization(this.taskTarckerApp.ui.render)()
   }
 
   render() {
     return (
       <Router>
         <div>
-          <Route exact path="/" component={() => this.taskTarckerApp.ui.render()} />
+          <Route exact path={this.taskTarckerApp.path} component={this.taskTrackerComponent} />
         </div>
       </Router>
     );
@@ -25,6 +41,6 @@ class App extends Component {
 ReactDOM.render(
   <App />,
   document.getElementById('root')
-);
+)
 
-serviceWorker.unregister();
+serviceWorker.unregister()
