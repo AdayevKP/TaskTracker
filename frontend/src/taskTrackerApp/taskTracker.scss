@@ -1,46 +1,24 @@
-@import 'normalize.scss';
 
-@font-face {
-    font-family: 'Neue Machina Regular';
-    src: url('./fonts/NeueMachina/NeueMachina-Regular.ttf');
-}
-
-@font-face {
-    font-family: 'Neue Machina Ultrabold';
-    src: url('./fonts/NeueMachina/NeueMachina-Ultrabold.ttf');
-}
-
-@font-face {
-    font-family: 'Neue Machina Light';
-    src: url('./fonts/NeueMachina/NeueMachina-Light.ttf');
-}
-
-@font-face {
-    font-family: 'Neue Machina Light';
-    src: url('./fonts/NeueMachina/NeueMachina-Light.ttf');
-}
 
 @mixin font-regular {
-    font-family: 'Neue Machina Regular';
     font-size: 18px;
     line-height: 20px;
     color: #C9C9C9;
 }
 
 @mixin font-ultrabold {
-    font-family: 'Neue Machina Ultrabold';
     font-size: 18px;
     line-height: 20px;
 }
 
 @mixin font-light {
-    font-family: 'Neue Machina Light';
     font-size: 24px;
     line-height: 20px;
     color: #C9C9C9;
 }
 
 * {
+    font-family: 'Poppins', sans-serif;
     box-sizing: border-box;
 }
 
