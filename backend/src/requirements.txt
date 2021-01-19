@@ -1,0 +1,5 @@
+flask==1.1.2
+flask_restful==0.3.8
+docopt==0.6.2
+flask-sqlalchemy==2.4.4
+sqlalchemy-utils==0.36.8
