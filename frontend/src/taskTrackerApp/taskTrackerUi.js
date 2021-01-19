@@ -77,11 +77,12 @@ class TaskTrackerUi{
 
             daySessions.push(sessionHtml)
         }
-
+        
+        let date;
+        [date, ] = day.date.split('.')
         const html = 
-
         <div key={uniqueId()} className="day">
-            <p className="data">{day.name}<br/>{day.date}</p>
+            <p className="data">{day.name}<br/>{date}</p>
             {daySessions}
         </div>
 

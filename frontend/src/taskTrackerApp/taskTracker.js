@@ -21,7 +21,7 @@ class TaskTracker{
     }
 
     getWeek(fromCurrent=0){
-        const week_raw = '{"days":[{"name": "MON", "date": "23", "sessions": [{"task": {"id": 1,"name": "Work","color":"#CD9A8F","active": true}, "duration": 4.2}, {"task": {"id": 2, "name": "Study", "color": "#BCC8A7", "active": true}, "duration": 2.2}]},{"name": "TUE", "date": "24", "sessions": []},{"name": "WED", "date": "25.08", "sessions": [{"task": {"id": 3, "name": "Autizm", "color": "#B5C4C6", "active": true}, "duration": 1.2}, {"task": {"id": 2, "name": "Study", "color": "#BCC8A7", "active": true}, "duration": 5.2}]},{"name": "THU", "date": "26.08", "sessions": []},{"name": "FRI", "date": "27.08", "sessions": []},{"name": "SAT", "date": "28.08", "sessions": []},{"name": "SUN", "date": "29", "sessions": []}]}'
+        const week_raw = '{"days":[{"name": "MON", "date": "23.01.21", "sessions": [{"task": {"id": 1,"name": "Work","color":"#CD9A8F","active": true}, "duration": 4.2}, {"task": {"id": 2, "name": "Study", "color": "#BCC8A7", "active": true}, "duration": 2.2}]},{"name": "TUE", "date": "24.01.21", "sessions": []},{"name": "WED", "date": "25.01.21", "sessions": [{"task": {"id": 3, "name": "Autizm", "color": "#B5C4C6", "active": true}, "duration": 1.2}, {"task": {"id": 2, "name": "Study", "color": "#BCC8A7", "active": true}, "duration": 5.2}]},{"name": "THU", "date": "26.01.21", "sessions": []},{"name": "FRI", "date": "27.01.21", "sessions": []},{"name": "SAT", "date": "28.01.21", "sessions": []},{"name": "SUN", "date": "29.01.21", "sessions": []}]}'
         // get week info from server
         // this is temporary plug
 
