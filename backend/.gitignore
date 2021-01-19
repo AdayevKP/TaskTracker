@@ -11,5 +11,5 @@ venv/
 #pycharm project files
 .idea/
 
-backend/src/db.*
+*.sqlite
 
