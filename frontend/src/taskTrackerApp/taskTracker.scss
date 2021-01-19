@@ -1,41 +1,5 @@
-@import 'normalize.scss';
-
-@font-face {
-    font-family: 'Neue Machina Regular';
-    src: url('./fonts/NeueMachina/NeueMachina-Regular.ttf');
-}
-
-@font-face {
-    font-family: 'Neue Machina Ultrabold';
-    src: url('./fonts/NeueMachina/NeueMachina-Ultrabold.ttf');
-}
-
-@font-face {
-    font-family: 'Neue Machina Light';
-    src: url('./fonts/NeueMachina/NeueMachina-Light.ttf');
-}
-
-@mixin font-regular {
-    font-family: 'Neue Machina Regular';
-    font-size: 18px;
-    line-height: 20px;
-    color: #C9C9C9;
-}
-
-@mixin font-ultrabold {
-    font-family: 'Neue Machina Ultrabold';
-    font-size: 18px;
-    line-height: 20px;
-}
-
-@mixin font-light {
-    font-family: 'Neue Machina Light';
-    font-size: 24px;
-    line-height: 20px;
-    color: #C9C9C9;
-}
-
 * {
+    font-family: 'Poppins', sans-serif;
     box-sizing: border-box;
 }
 
@@ -53,36 +17,48 @@ button {
 
     .left-menu {
         margin: 0px;
-        @include font-ultrabold;
-
 
         .menu-batton {
-            width: 40px;
+            width: 60px;
             height: 40px;
-            @include font-ultrabold;
-            color: #C9C9C9;
-            border: 1px solid #C9C9C9;
+            font-family: Poppins;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 300;
+            line-height: 16px;
+            letter-spacing: 0em;
+            border: none;
+            color: #404040;
+            outline: 0;
+            cursor: pointer;
         }
 
         .tasks {
             padding: 0 10px 0;
             
-
             .task-batton {
-                width: 120px;
+                min-width: 120px;
                 height: 40px;
-                
+                font-family: Poppins;
+                font-size: 18px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: 27px;
+                letter-spacing: 0.01em;
+                text-align: center;
+                cursor: pointer;
+                padding: 0px 20px;
             }
             
             .task-batton + .task-batton {
-                margin-left: 5px;
+                margin-left: 10px;
             }
         }
 
         .add {
-            
             border: 1px solid #C9C9C9;
             padding-bottom: 5px;
+            cursor: pointer;
         }
     }
 
@@ -90,7 +66,6 @@ button {
         margin: 0px;
         
         .stop-batton {
-            @include font-regular;
             width: 120px;
             height: 40px;
             margin-left: 10px;
@@ -99,15 +74,22 @@ button {
         }
         
         .timer {
-            @include font-light;
             align-self: center;
+            font-family: Poppins;
+            font-size: 24px;
+            font-style: normal;
+            font-weight: 200;
+            line-height: 36px;
+            letter-spacing: 0em;
+            text-align: right;
+            color: #C9C9C9;
         }
     }
 }
 
 .line {
     height: 1px;
-    background-color: #C9C9C9;
+    background-color: #808080;
     margin: 0 10px 0;
 }
 
@@ -121,7 +103,6 @@ button {
         height: 60px;
 
         .data {
-            @include font-ultrabold;
             text-align: center;
             padding-left: 6px;
             padding-right: 5px;
@@ -130,7 +111,6 @@ button {
         }
 
         .task{
-            @include font-ultrabold;
             font-size: 20px;
             color: #ffffff;
             height: 40px;
@@ -145,6 +125,6 @@ button {
 
     .dayline {
         height: 1px;
-    background-color: #C9C9C9;
+        background-color: #C9C9C9;
     }
 }

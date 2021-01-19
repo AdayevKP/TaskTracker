@@ -1,6 +1,7 @@
-import React from 'react'
+import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom'; 
 import './taskTracker.scss';
+import { uniqueId } from 'lodash';
 
 import bindMethods from '../tools/bindMethods'
 
@@ -15,9 +16,7 @@ class TaskTrackerUi{
     render() {
         const html = 
         <Router>
-            <div>
-                <Route exact path={this.path} component={this.getMainPage} />
-            </div>
+            <Route exact path={this.path} component={this.getMainPage} />
         </Router>
 
         return (html);
@@ -25,31 +24,31 @@ class TaskTrackerUi{
 
     getMainPage(){
         const htmlString = 
-        <body>
-            <header class="menu">
-                <div class="menu left-menu">
-                    <button class="menu-batton">M</button>
-                    <div class="tasks">
+        <div>
+            <header className="menu">
+                <div className="menu left-menu">
+                    <button className="menu-batton">MENU</button>
+                    <div className="tasks">
                         {
                         Array.from(this.model.getTasks(), el => 
-                        (<button class="task-batton" style={{color: el.color, border: '2px solid ' + el.color}}>
+                        (<button key={uniqueId()} className="task-batton" style={{color: el.color, border: '1px solid ' + el.color}}>
                             {el.name}
                         </button>))
                         }
                     </div>
-                    <button class="menu-batton add">+</button>
+                    <button className="menu-batton add">+</button>
                 </div>
-                <div class="menu right-menu">
-                    <p class="timer">0.00.00</p>
-                    <button class="stop-batton">Pause</button>
+                <div className="menu right-menu">
+                    <p className="timer">0.00.00</p>
+                    <button className="stop-batton">Pause</button>
                 </div>
             </header>
             
-            <div class="line"></div>
-            <div class="results">
+            <div className="line"></div>
+            <div className="results">
                 {this.getWeek()}
             </div>
-        </body>
+        </div>
 
         return (htmlString);
     }
@@ -57,7 +56,7 @@ class TaskTrackerUi{
     getWeek(){
         const week = this.model.getWeek();
         const days = Array.from(week.days, (weekDay) => this.getWeekDay(weekDay));
-        return days.reduce((acc, el) => [...acc, el, <div class="dayline"></div>], []);
+        return days.reduce((acc, el) => [...acc, el, <div key={uniqueId()} className="dayline"></div>], []);
     }
 
     getWeekDay(day) {
@@ -70,7 +69,7 @@ class TaskTrackerUi{
         for (let session of day.sessions) {
             const sessionHtml = 
 
-            <div class="task" style={{
+            <div key={uniqueId()} className="task" style={{
                 backgroundColor: session.task.color, 
                 width: pxWidthFromDuration(session.duration)}}>
                 {session.duration}
@@ -81,8 +80,8 @@ class TaskTrackerUi{
 
         const html = 
 
-        <div class="day">
-            <p class="data">{day.name}<br/>{day.date}</p>
+        <div key={uniqueId()} className="day">
+            <p className="data">{day.name}<br/>{day.date}</p>
             {daySessions}
         </div>
 
