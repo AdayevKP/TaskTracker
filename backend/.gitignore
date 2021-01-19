@@ -1,0 +1,15 @@
+#PYTHON
+
+.mypy_cache/
+
+#database migartions data
+migrations/
+
+#virtual environment
+venv/
+
+#pycharm project files
+.idea/
+
+backend/src/db.*
+
