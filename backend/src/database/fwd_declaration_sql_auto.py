@@ -5,7 +5,7 @@ from sqlalchemy import ARRAY, BIGINT, BINARY, BLOB, BOOLEAN, BigInteger, Binary,
 from sqlalchemy.orm import AliasOption, AttributeExtension, Bundle, ColumnProperty, ComparableProperty, CompositeProperty, Load, Mapper, MapperExtension, PropComparator, Query, RelationshipProperty, Session, SessionExtension, SynonymProperty, scoped_session, sessionmaker
 
 
-class SQL(SQLAlchemy):
+class SQLAlchemyFwd(SQLAlchemy):
     ARRAY = ARRAY
     BIGINT = BIGINT
     BINARY = BINARY

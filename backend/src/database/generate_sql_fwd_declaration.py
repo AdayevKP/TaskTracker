@@ -24,7 +24,7 @@ if __name__ == "__main__":
                 '{}'
                 '\n'
                 '\n'
-                'class SQL(SQLAlchemy):\n'
+                'class SQLAlchemyFwd(SQLAlchemy):\n'
                 '    {}\n'
                 ''.format(imports_str, '\n    '.join(lst))
                 )

@@ -1,4 +1,4 @@
-from task_tracker.com import db
+from database import db
 
 
 class UserModel(db.Model):
