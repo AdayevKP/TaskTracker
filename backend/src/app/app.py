@@ -3,9 +3,9 @@ import logging
 
 from flask import Flask
 from flask_restful import Api
+from sqlalchemy_utils import database_exists
 
 from database import db
-from app.resources.user import User
 
 
 APP_NAME = 'server'
@@ -22,18 +22,21 @@ _log.addHandler(handler)
 
 def init_api(app: Flask):
     api = Api(app)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite'
 
-    api.add_resource(User, '/user')
+    #api.add_resource(User, '/user')
     return api
 
 
 def create_app():
-    app = Flask(__name__)
-    init_api(app)
-    db.init_app(app)
+    new_app = Flask(__name__)
+    new_app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite'
+    init_api(new_app)
+    db.init_app(new_app)
 
-    with app.app_context():
-        db.create_all()
+    if not database_exists(new_app.config['SQLALCHEMY_DATABASE_URI']):
+        with new_app.app_context():
+            # noinspection PyUnresolvedReferences
+            import app.models  # this import need to create tables in db from models
+            db.create_all()
 
-    return app
+    return new_app
