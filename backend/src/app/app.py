@@ -2,10 +2,10 @@ import sys
 import logging
 
 from flask import Flask
-from flask_restful import Api
 from sqlalchemy_utils import database_exists
 
 from database import db
+from app.api_v1 import init_api
 
 
 APP_NAME = 'server'
@@ -20,16 +20,12 @@ handler.setFormatter(formatter)
 _log.addHandler(handler)
 
 
-def init_api(app: Flask):
-    api = Api(app)
-
-    #api.add_resource(User, '/user')
-    return api
-
-
 def create_app():
     new_app = Flask(__name__)
+
     new_app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite'
+    new_app.config['SECRET_KEY'] = 'super secret key'
+
     init_api(new_app)
     db.init_app(new_app)
 
