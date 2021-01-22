@@ -13,3 +13,5 @@ venv/
 
 *.sqlite
 
+*.spec
+

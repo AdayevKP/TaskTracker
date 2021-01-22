@@ -1,0 +1,1 @@
+pyinstaller --onefile --hidden-import=flask_api.parsers --hidden-import=flask_api.renderers --name server.exe --distpath .\bin --specpath src\main.py 

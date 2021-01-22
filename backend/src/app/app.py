@@ -1,3 +1,4 @@
+import os
 import sys
 import logging
 
@@ -23,7 +24,8 @@ _log.addHandler(handler)
 def create_app():
     new_app = Flask(__name__)
 
-    new_app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.sqlite'
+    file_path = os.path.abspath(os.path.dirname(sys.argv[0])) + "\\database.sqlite"
+    new_app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + file_path
     new_app.config['SECRET_KEY'] = 'super secret key'
 
     init_api(new_app)
@@ -33,6 +35,7 @@ def create_app():
         with new_app.app_context():
             # noinspection PyUnresolvedReferences
             import app.models  # this import need to create tables in db from models
+            _log.info('new database created at {}'.format(file_path))
             db.create_all()
 
     return new_app
