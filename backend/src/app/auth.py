@@ -1,13 +1,13 @@
 import jwt
 from flask_api import status
-from flask_restful import abort
 
 from flask_httpauth import HTTPTokenAuth, HTTPBasicAuth, MultiAuth
 
 from app.models import UserModel
+from app.response import error
 
 ALGORITHM = 'HS256'
-SECRET_KEY = 'super secret key'
+SECRET_KEY = 'super secret key 1234'
 
 token_auth = HTTPTokenAuth(scheme='Bearer')
 basic_auth = HTTPBasicAuth()
@@ -30,15 +30,20 @@ def verify_token(token):
     try:
         data = decode_token(token)
     except jwt.DecodeError:
-        abort('Invalid token')
+        error(status.HTTP_400_BAD_REQUEST, message='Invalid token')
 
-    return UserModel.query.get(data['id'])
+    user = UserModel.query.get(data['id'])
+    if not user:
+        error(status.HTTP_404_NOT_FOUND, message='Cannot find user for this token')
+
+    return user
 
 
 @basic_auth.verify_password
 def verify_password(username, password):
     user = UserModel.query.filter_by(username=username).first()  # type: UserModel
+
     if not user or not user.check_password(password):
-        abort('Invalid login or password')
+        error(status.HTTP_401_UNAUTHORIZED, message='Invalid username or password')
 
     return user
