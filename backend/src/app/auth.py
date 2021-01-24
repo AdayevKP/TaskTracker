@@ -25,7 +25,7 @@ def decode_token(token):
 @token_auth.verify_token
 def verify_token(token):
     if not token:
-        return
+        error(status.HTTP_401_UNAUTHORIZED, message='Unauthorized access')
 
     try:
         data = decode_token(token)
