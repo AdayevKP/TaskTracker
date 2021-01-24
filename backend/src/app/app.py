@@ -26,7 +26,6 @@ def create_app():
 
     file_path = os.path.abspath(os.path.dirname(sys.argv[0])) + "\\database.sqlite"
     new_app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + file_path
-    new_app.config['SECRET_KEY'] = 'super secret key'
 
     init_api(new_app)
     db.init_app(new_app)
