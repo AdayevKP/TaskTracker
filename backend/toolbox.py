@@ -15,7 +15,7 @@ if SYSTEM == WIN:
     ACTIVATE_EVN = os.path.join(os.getcwd(), 'venv', 'Scripts', 'activate')
 elif SYSTEM == LINUX or SYSTEM == MAC:
     PYTHON = 'python3'
-    ACTIVATE_EVN = 'source ' + os.path.join(os.getcwd(), 'venv', 'bin', 'activate')
+    ACTIVATE_EVN = 'source ' + os.path.join('venv', 'bin', 'activate')
 else:
     raise Exception('Unsupported platform')
 
