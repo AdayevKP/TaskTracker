@@ -1,5 +1,5 @@
 import sqlalchemy
-from sqlalchemy import orm
+from sqlalchemy.orm import relationship
 
 
 if __name__ == "__main__":
@@ -8,7 +8,7 @@ if __name__ == "__main__":
     for module in sqlalchemy, sqlalchemy.orm:
         for key in module.__all__:
             attr = getattr(module, key)
-            if isinstance(attr, type):
+            if hasattr(attr, '__name__'):
                 name = getattr(module, key).__name__
                 lst.append(key + " = " + str(name))
                 imports.setdefault(module.__name__, []).append(name)

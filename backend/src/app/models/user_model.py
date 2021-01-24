@@ -9,6 +9,7 @@ class UserModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(32), index=True)
     password_hash = db.Column(db.String(128))
+    tasks = db.relationship('TaskModel', backref='user')
 
     def __init__(self, name, password):
         self.username = name
