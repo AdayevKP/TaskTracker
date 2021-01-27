@@ -1,5 +1,7 @@
 #PYTHON
 
+.mypy_cache/
+
 __pycache__/
 
 #database migartions data
@@ -11,5 +13,7 @@ venv/
 #pycharm project files
 .idea/
 
-backend/src/db.*
+*.sqlite
+
+*.spec
 
