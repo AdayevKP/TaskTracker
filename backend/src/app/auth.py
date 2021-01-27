@@ -4,7 +4,7 @@ from flask_api import status
 from flask_httpauth import HTTPTokenAuth, HTTPBasicAuth, MultiAuth
 
 from app.models import UserModel
-from app.response import error
+from app.response import raise_error_response
 
 ALGORITHM = 'HS256'
 SECRET_KEY = 'super secret key 1234'
@@ -25,16 +25,16 @@ def decode_token(token):
 @token_auth.verify_token
 def verify_token(token):
     if not token:
-        error(status.HTTP_401_UNAUTHORIZED, message='Unauthorized access')
+        raise_error_response(status.HTTP_401_UNAUTHORIZED, message='Unauthorized access')
 
     try:
         data = decode_token(token)
     except jwt.DecodeError:
-        error(status.HTTP_400_BAD_REQUEST, message='Invalid token')
+        raise_error_response(status.HTTP_400_BAD_REQUEST, message='Invalid token')
 
     user = UserModel.query.get(data['id'])
     if not user:
-        error(status.HTTP_404_NOT_FOUND, message='Cannot find user for this token')
+        raise_error_response(status.HTTP_404_NOT_FOUND, message='Cannot find user for this token')
 
     return user
 
@@ -44,6 +44,6 @@ def verify_password(username, password):
     user = UserModel.query.filter_by(username=username).first()  # type: UserModel
 
     if not user or not user.check_password(password):
-        error(status.HTTP_401_UNAUTHORIZED, message='Invalid username or password')
+        raise_error_response(status.HTTP_401_UNAUTHORIZED, message='Invalid username or password')
 
     return user

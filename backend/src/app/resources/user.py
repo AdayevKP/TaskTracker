@@ -9,8 +9,8 @@ from app.response import response
 
 
 user_info_parser = reqparse.RequestParser()
-user_info_parser.add_argument('username')
-user_info_parser.add_argument('password')
+user_info_parser.add_argument('username', required=True)
+user_info_parser.add_argument('password', required=True)
 UserInfo = namedtuple('UserInfo', 'username password')
 
 TOKEN = 'token'

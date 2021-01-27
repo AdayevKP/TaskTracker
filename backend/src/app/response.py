@@ -11,5 +11,7 @@ def response(status_code, data=None, message=''):
     return make_response(body, status_code)
 
 
-def error(status_code, message='', data=''):
+def raise_error_response(status_code, message='', data=''):
     abort(status_code, message=message, status=status_code, data=data)
+
+
