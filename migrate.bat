@@ -1,1 +1,0 @@
-python .\backend\src\manage.py makemigrations & python .\backend\src\manage.py migrate
