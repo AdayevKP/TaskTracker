@@ -21,11 +21,20 @@ handler.setFormatter(formatter)
 _log.addHandler(handler)
 
 
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH')
+    return response
+
+
 def create_app():
     new_app = Flask(__name__)
 
     file_path = os.path.abspath(os.path.dirname(sys.argv[0])) + "\\database.sqlite"
     new_app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + file_path
+
+    new_app.after_request(after_request)
 
     init_api(new_app)
     db.init_app(new_app)
