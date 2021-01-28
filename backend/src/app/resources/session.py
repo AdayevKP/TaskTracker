@@ -21,18 +21,6 @@ def get_task_info():
 
 class Sessions(Resource):
     @token_auth.login_required
-    def put(self):
-        task_id = get_task_info().task_id
-        user = token_auth.current_user()
-        Task.try_find_task(task_id, user)
-        session = SessionModel(task_id=task_id)
-
-        db.session.add(session)
-        db.session.commit()
-
-        return response(status_code=status.HTTP_201_CREATED, data=session.as_dict())
-
-    @token_auth.login_required
     def get(self):
         user = token_auth.current_user()  # type: UserModel
         sessions = db.session.query(SessionModel).join(TaskModel).filter(TaskModel.user_id == user.id)

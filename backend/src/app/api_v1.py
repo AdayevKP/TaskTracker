@@ -15,4 +15,6 @@ def init_api(app: Flask):
 
     api.add_resource(res.Sessions, '/api/v1/sessions')
     api.add_resource(res.Session, '/api/v1/session/<int:session_id>')
+
+    api.add_resource(res.Timer, '/api/v1/timer/')
     return api
