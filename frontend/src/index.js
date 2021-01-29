@@ -3,20 +3,10 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';  
 import * as serviceWorker from './tools/serviceWorker';
 import TaskTracker from './taskTrackerApp/taskTracker'
-import Auth from './auth/auth'
-
-import bindMethods from './tools/bindMethods'
-
+import AuthComponent from './auth/authUi'
+ 
+/*
 class App extends Component {
-  constructor(){
-    super();
-    this.authorized = true;
-    this.taskTarckerApp = new TaskTracker('/app');
-    this.auth = new Auth('/auth', undefined);
-
-    bindMethods(this);
-  }
-
   checkAuthorization(func){
     if (this.authorized) {
       return func;
@@ -40,10 +30,22 @@ class App extends Component {
     );
   }
 }
+*/
+class App extends Component{
+    render() {
+        return (
+        <Router>
+            <Route path='/login'>
+                <AuthComponent/>
+            </Route>
+        </Router>
+        );
+    }
+}
 
 ReactDOM.render(
-  <App />,
-  document.getElementById('root')
+    <App />,
+    document.getElementById('root')
 )
 
 serviceWorker.unregister()

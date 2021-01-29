@@ -1,47 +1,71 @@
 import React from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom'; 
-import bindMethods from '../tools/bindMethods'
+import { Component } from 'react';
+import axios from 'axios'
 
 import './auth.css'
 
+const loginPath = 'http://127.0.0.1:5000/api/v1/login'
+const signPath = 'http://127.0.0.1:5000/api/v1/user'
 
-class AuthUi{
-    constructor(model, path){
-        this.model = model
-        this.path = path
-        bindMethods(this)
+
+class AuthComponent extends Component{
+    state = {
+        username: '',
+        password: '',
+    };
+
+    onResp = (resp) => {alert(JSON.stringify(resp.data))}
+
+    onErr = (err) => {alert(JSON.stringify(err.response.data))}
+
+    onLogin = () => {
+        let config={
+            headers: {'Content-Type' : 'application/json'},
+            auth: {username: this.state.username, password: this.state.password}
+        }
+        axios.post(loginPath, {}, config).then(this.onResp).catch(this.onErr)
     }
 
-    render() {
-        const html = 
-        <Router>
-            <div>
-                <Route exact path={this.path} component={this.getMainPage} />
-            </div>
-        </Router>
-
-        return (html);
+    onSignUp = () => {
+        let config={
+            headers: {'Content-Type' : 'application/json'}
+        }
+        axios.post(signPath, JSON.stringify({'username': this.state.username, 'password': this.state.password}), config)
+        .then(this.onResp, this.onErr)
     }
 
-    getMainPage(){
-        const htmlString = 
+    render() { 
+        const body = 
         <body>
             <section class="authorization">
-                <p class="authorization__header">Authorization</p>
-                <div class="authorization__line"></div>
+                <p class="authorization__header">Task Tracker</p>
                 <div class="form">
-                    <form class="form__wrapper" action="#" method="post">
-                        <input class="form__input" name="user_login" type="email" placeholder="Mail"/>
-                        <input class="form__input" name="user_password" type="password" placeholder="Password"/>
-                        <button class="form__button" type="submit">Log in</button>
-                        <button class="form__button" type="submit">Sign up</button>
-                    </form>
+                    <div class="form__wrapper">
+                        <input 
+                            class="form__input" 
+                            type="text" 
+                            placeholder="Username" 
+                            value={this.state.username} 
+                            onChange={(e) => {this.setState({username: e.target.value})}}
+                        />
+                        
+                        <input 
+                            class="form__input" 
+                            type="password" 
+                            placeholder="Password"
+                            value={this.state.password} 
+                            onChange={(e) => {this.setState({password: e.target.value})}}
+                        />
+
+                        <button class="form__button" onClick={this.onLogin}>Log in</button>
+                        <button class="form__button" onClick={this.onSignUp}>Sign up</button>
+                    </div>
                 </div>
             </section>
         </body>
 
-        return (htmlString);
+        return (body);
     }
 }
 
-export default AuthUi;
+export default AuthComponent;
