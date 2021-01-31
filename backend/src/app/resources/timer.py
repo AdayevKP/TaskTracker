@@ -10,9 +10,8 @@ from app.response import response, raise_error_response
 from app.resources import Task
 
 timer_request_parser = reqparse.RequestParser()
-timer_request_parser.add_argument('task_id', required=True)
 timer_request_parser.add_argument('action', required=True)
-TimerRequest = namedtuple('TimerRequest', 'task_id action')
+TimerRequest = namedtuple('TimerRequest', 'action')
 
 
 def get_request_info():
@@ -27,7 +26,7 @@ class Timer(Resource):
     def _stop_timer(task):
         session = task.sessions.filter_by(end=None).first()
 
-        if session.active():
+        if session and session.active():
             session.end = datetime.datetime.now()
             db.session.commit()
             return True

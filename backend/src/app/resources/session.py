@@ -1,4 +1,5 @@
-import datetime
+import dateparser
+from datetime import datetime, date
 from collections import namedtuple
 from flask_restful import Resource, reqparse
 from flask_api import status
@@ -7,23 +8,31 @@ from app.auth import token_auth
 from database import db
 from app.models import TaskModel, UserModel, SessionModel
 from app.response import response, raise_error_response
-from app.resources import Task
+
+sessions_request_parser = reqparse.RequestParser()
+sessions_request_parser.add_argument('begin_date', default='')
+sessions_request_parser.add_argument('end_date', default='')
+SessionsRequest = namedtuple('SessionsRequest', 'begin_date end_date')
 
 
-session_info_parser = reqparse.RequestParser()
-session_info_parser.add_argument('task_id', required=True)
-SessionInfo = namedtuple('SessionInfo', 'task_id')
-
-
-def get_task_info():
-    return SessionInfo(**session_info_parser.parse_args())
+def get_session_request():
+    return SessionsRequest(**sessions_request_parser.parse_args())
 
 
 class Sessions(Resource):
     @token_auth.login_required
     def get(self):
         user = token_auth.current_user()  # type: UserModel
-        sessions = db.session.query(SessionModel).join(TaskModel).filter(TaskModel.user_id == user.id)
+        body = get_session_request()
+
+        end_date = dateparser.parse(body.end_date) or date.max
+        start_date = dateparser.parse(body.begin_date) or date.min
+
+        sessions = db.session.query(SessionModel).join(TaskModel)\
+            .filter(
+                TaskModel.user_id == user.id,
+                SessionModel.start >= start_date.strftime('%Y-%m-%d'),
+                SessionModel.start <= end_date.strftime('%Y-%m-%d')).all()
 
         return response(
             status_code=status.HTTP_200_OK,
@@ -55,7 +64,7 @@ class Session(Resource):
         if not session.active():
             raise_error_response(status_code=status.HTTP_403_FORBIDDEN, message='session already stopped')
 
-        session.end = datetime.datetime.now()
+        session.end = datetime.now()
 
         db.session.commit()
         return response(status_code=status.HTTP_202_ACCEPTED, message='Session stopped'.format(session))
