@@ -10,11 +10,11 @@ class AuthLayout extends Component {
         <body>
             <section class="authorization">
                 <p class="authorization__header">Task Tracker</p>
-                <form class="form" onSubmit={this.props.onSubmit} action={this.props.action}>
+                <div class="form">
                     <div class="form__wrapper">
                         {this.props.children}
                     </div>
-                </form>
+                </div>
             </section>
         </body>
 

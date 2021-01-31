@@ -10,6 +10,8 @@ const signUpUrl = basePath + '/user'
 
 const tasksUrl = basePath + '/tasks'
 
+const sessionsUrl = basePath + '/sessions'
+
 
 const saveToken = (request) => {
     // TODO: add exceptions handling
@@ -49,10 +51,10 @@ export const logIn = (username, password, callBack=onResp, errBack=onErr) => {
 
 
 export const signUp = (username, password, callBack=onResp, errBack=onErr) => {
-    const data = JSON.stringify({
+    const data = {
         username: username, 
         password: password
-    });
+    };
     axios.post(signUpUrl, data).then(res => {saveToken(res); callBack(res)}, errBack);
 } 
 
@@ -63,4 +65,17 @@ export const getTasks = (callBack=onResp, errBack=onErr) => {
         headers: { Authorization: 'Bearer ' + token}
     };
     axios.get(tasksUrl, config).then(callBack, errBack);
+}
+
+
+export const getSessions = (startDate=null, endDate=null, callBack=onResp, errBack=onErr) => {
+    const token = getToken();
+    const config = {
+        headers: { Authorization: 'Bearer ' + token},
+        params: {
+            begin_date: startDate,
+            end_date: endDate
+        }
+    };
+    axios.get(sessionsUrl, config).then(callBack, errBack);
 }

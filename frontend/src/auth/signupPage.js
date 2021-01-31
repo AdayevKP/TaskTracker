@@ -18,26 +18,13 @@ class SignUpPage extends Component{
         passwordRepeat: ''
     };
 
-    onResp = (resp) => {
-        console.log(JSON.stringify(resp.data))
-    }
-    
-    
-    onErr = (err) => {
-        if (err.response && err.response.data){
-            console.log(JSON.stringify(err.response.data))
-        } else {
-            console.log(JSON.stringify(err))
-        }
-    }
-
     onSignUp = () => {
-        signUp(this.state.username, this.state.password, this.onResp, this.onErr);
+        signUp(this.state.username, this.state.password);
     }
 
     render() { 
         const body = 
-            <AuthLayout onSignUp={this.onSignUp} action={MAIN_PAGE}>
+            <AuthLayout>
                 <input 
                     class="form__input" 
                     type="text" 
@@ -63,7 +50,7 @@ class SignUpPage extends Component{
                     onChange={(e) => {this.setState({passwordRepeat: e.target.value})}}
                 />
 
-                <button class="form__button">Sign Up</button>
+                <button class="form__button" onClick={this.onSignUp}>Sign Up</button>
                 <Link to={LOGIN_PAGE} class="form__button"> Cancel </Link>
             </AuthLayout>
         return (body);

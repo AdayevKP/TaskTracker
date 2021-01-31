@@ -17,22 +17,8 @@ class LoginPage extends Component{
         password: '',
     };
 
-    onResp = (resp) => {
-        console.log(JSON.stringify(resp.data))
-    }
-    
-    
-    onErr = (err) => {
-        if (err.response && err.response.data){
-            console.log(JSON.stringify(err.response.data))
-        } else {
-            console.log(JSON.stringify(err))
-        }
-    
-    }
-
     onLogin = () => {
-        logIn(this.state.username, this.state.password, this.onResp, this.onErr)
+        logIn(this.state.username, this.state.password)
     }
 
     render() { 
@@ -54,7 +40,7 @@ class LoginPage extends Component{
                     onChange={(e) => {this.setState({password: e.target.value})}}
                 />
 
-                <button class="form__button">Log in</button>
+                <button class="form__button" onClick={this.onLogin}>Log in</button>
                 <Link to={SINGUP_PAGE} class="form__button"> Register </Link>
             </AuthLayout>
         return (body);

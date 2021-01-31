@@ -1,20 +1,42 @@
-import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom'; 
+import React from 'react'; 
 import './taskTracker.scss';
-import { uniqueId } from 'lodash';
-
-import bindMethods from '../tools/bindMethods'
 import { Component } from 'react';
 
 import TasksMenu from './tasksMenu'
 
-import {getTasks} from '../requests'
+import {getTasks, getSessions} from '../requests'
+import Stats, {statsTypes} from './stats';
+import { rest } from 'lodash';
+
+
+const currentWeekBoundaries = () => {
+    var curr = new Date();
+    var first = curr.getDate() - curr.getDay();
+    var last = first + 6;
+
+    var firstday = new Date(curr.setDate(first)).toUTCString();
+    var lastday = new Date(curr.setDate(last)).toUTCString();
+
+    return [firstday, lastday];
+}
 
 class MainPage extends Component{
     state = {
         sessionsList: [],
         tasksList: [], 
-        tasksById: {}
+        tasksById: {},
+        statsType: statsTypes.WEEK,
+    }
+
+    taskIdToObj = (id) => {
+        return this.state.tasksById[id]
+    }
+
+    getSessionsBoundaries = () => {
+        switch (this.state.statsType) {
+            case statsTypes.WEEK:
+                return currentWeekBoundaries();
+        }
     }
     
     componentDidMount () {
@@ -26,6 +48,16 @@ class MainPage extends Component{
                 })
             }
          )
+        
+        let startDate = null; 
+        let endDate = null;
+        [startDate, endDate] = this.getSessionsBoundaries();
+
+        getSessions(startDate, endDate, resp => {
+            this.setState({
+                sessionsList: resp.data.data
+            })
+        })
     }
 
     render() {
@@ -33,10 +65,7 @@ class MainPage extends Component{
         <div>
             <TasksMenu tasks={this.state.tasksList}/>        
             <div className="line"></div>
-
-
-            <div className="results">
-            </div>
+            <Stats sessions={this.state.sessionsList} taskIdToObj={this.taskIdToObj} type={statsTypes.WEEK}/>
         </div>
 
         return (htmlString);
