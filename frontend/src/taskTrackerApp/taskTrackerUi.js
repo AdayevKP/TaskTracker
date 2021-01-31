@@ -27,20 +27,22 @@ class TaskTrackerUi{
         <div>
             <header className="menu">
                 <div className="menu left-menu">
-                    <button className="menu-batton">MENU</button>
+                    <button className="menu-button">MENU</button>
+
                     <div className="tasks">
                         {
                         Array.from(this.model.getTasks(), el => 
-                        (<button key={uniqueId()} className="task-batton" style={{color: el.color, border: '1px solid ' + el.color}}>
+                        (<button key={uniqueId()} className="task-button" style={{color: el.color, border: '1px solid ' + el.color}}>
                             {el.name}
                         </button>))
                         }
                     </div>
-                    <button className="menu-batton add">+</button>
+                    <button className="menu-button add">+</button>
+                    
                 </div>
                 <div className="menu right-menu">
                     <p className="timer">0.00.00</p>
-                    <button className="stop-batton">Pause</button>
+                    <button className="stop-button">Pause</button>
                 </div>
             </header>
             

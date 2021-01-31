@@ -6,25 +6,35 @@ import { uniqueId } from 'lodash';
 import bindMethods from '../tools/bindMethods'
 import { Component } from 'react';
 
+import TasksMenu from './tasksMenu'
+
+import {getTasks} from '../requests'
 
 class MainPage extends Component{
+    state = {
+        sessionsList: [],
+        tasksList: [], 
+        tasksById: {}
+    }
+    
+    componentDidMount () {
+        getTasks(
+            resp => {
+                this.setState({
+                    tasksList: resp.data.data,
+                    tasksById: resp.data.data.reduce((acc, el) => {acc[el.id] = el; return acc}, {})
+                })
+            }
+         )
+    }
+
     render() {
         const htmlString = 
         <div>
-            <header className="menu">
-                <div className="menu left-menu">
-                    <button className="menu-batton">MENU</button>
-                    <div className="tasks">
-                    </div>
-                    <button className="menu-batton add">+</button>
-                </div>
-                <div className="menu right-menu">
-                    <p className="timer">0.00.00</p>
-                    <button className="stop-batton">Pause</button>
-                </div>
-            </header>
-            
+            <TasksMenu tasks={this.state.tasksList}/>        
             <div className="line"></div>
+
+
             <div className="results">
             </div>
         </div>

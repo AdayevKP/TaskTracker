@@ -8,7 +8,7 @@ import AuthLayout from './authPageLayout'
 
 import './auth.css'
 
-import {SINGUP_PAGE} from '../routes'
+import {MAIN_PAGE, SINGUP_PAGE} from '../routes'
 
 
 class LoginPage extends Component{
@@ -37,7 +37,7 @@ class LoginPage extends Component{
 
     render() { 
         const body = 
-            <AuthLayout onSubmit={this.onLogin}>
+            <AuthLayout onSubmit={this.onLogin} action={MAIN_PAGE}>
                 <input 
                     class="form__input" 
                     type="text" 

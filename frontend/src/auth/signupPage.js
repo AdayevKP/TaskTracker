@@ -54,6 +54,7 @@ class SignUpPage extends Component{
                     onChange={(e) => {this.setState({password: e.target.value})}}
                 />
 
+                {/*TODO: add checks for password repeat*/}
                 <input 
                     class="form__input" 
                     type="password" 
