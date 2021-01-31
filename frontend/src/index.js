@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';  
 import * as serviceWorker from './tools/serviceWorker';
 import TaskTracker from './taskTrackerApp/taskTracker'
-import AuthComponent from './auth/authUi'
+import LoginPage from './auth/loginPage'
+import AppRouter from './routes'
  
 /*
 class App extends Component {
@@ -35,9 +36,7 @@ class App extends Component{
     render() {
         return (
         <Router>
-            <Route path='/login'>
-                <AuthComponent/>
-            </Route>
+            <AppRouter/>
         </Router>
         );
     }
