@@ -79,3 +79,16 @@ export const getSessions = (startDate=null, endDate=null, callBack=onResp, errBa
     };
     axios.get(sessionsUrl, config).then(callBack, errBack);
 }
+
+
+export const addTask = (name, color, callBack=onResp, errBack=onErr) => {
+    const token = getToken();
+    const config = {
+        headers: { Authorization: 'Bearer ' + token},
+        params: {
+            name: name,
+            color: color
+        }
+    };
+    axios.put(tasksUrl, {}, config).then(callBack, errBack);
+}

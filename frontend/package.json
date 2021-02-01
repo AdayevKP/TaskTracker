@@ -10,6 +10,7 @@
     "docopt": "^0.6.2",
     "lodash": "^4.17.20",
     "node-sass": "^4.14.1",
+    "random-words": "^1.1.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",

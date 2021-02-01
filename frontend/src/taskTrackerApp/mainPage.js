@@ -4,8 +4,9 @@ import { Component } from 'react';
 
 import TasksMenu from './tasksMenu'
 
-import {getTasks, getSessions} from '../requests'
+import {getTasks, getSessions, addTask} from '../requests'
 import Stats, {statsTypes} from './stats';
+import randomWords from 'random-words';  // for debug purposes only
 import { rest } from 'lodash';
 
 
@@ -19,6 +20,18 @@ const currentWeekBoundaries = () => {
 
     return [firstday, lastday];
 }
+
+
+//this frunction is for debug purposes only
+function randomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
 
 class MainPage extends Component{
     state = {
@@ -38,8 +51,8 @@ class MainPage extends Component{
                 return currentWeekBoundaries();
         }
     }
-    
-    componentDidMount () {
+
+    getTasksFromBackend = () => {
         getTasks(
             resp => {
                 this.setState({
@@ -47,8 +60,11 @@ class MainPage extends Component{
                     tasksById: resp.data.data.reduce((acc, el) => {acc[el.id] = el; return acc}, {})
                 })
             }
-         )
-        
+        )
+    }
+    
+    componentDidMount () {
+        this.getTasksFromBackend();
         let startDate = null; 
         let endDate = null;
         [startDate, endDate] = this.getSessionsBoundaries();
@@ -60,10 +76,16 @@ class MainPage extends Component{
         })
     }
 
+    addTask = (name, color) => {
+        color = randomColor(); // for debug purposes only
+        name = randomWords(); // for debug purposes only
+        addTask(name, color, (_) => this.getTasksFromBackend())
+    }
+
     render() {
         const htmlString = 
         <div>
-            <TasksMenu tasks={this.state.tasksList}/>        
+            <TasksMenu tasks={this.state.tasksList} onAddTask={this.addTask}/>        
             <div className="line"></div>
             <Stats sessions={this.state.sessionsList} taskIdToObj={this.taskIdToObj} type={statsTypes.WEEK}/>
         </div>

@@ -35,7 +35,7 @@ class TasksMenu extends Component {
                         <TasksList tasks={this.props.tasks}/>
                     </div>
                     
-                    <button className="menu-button add">+</button>
+                    <button className="menu-button add" onClick={this.props.onAddTask}>+</button>
                 </div>
 
                 <div className="menu right-menu">
