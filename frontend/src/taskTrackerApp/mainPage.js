@@ -12,11 +12,8 @@ import { rest } from 'lodash';
 
 const currentWeekBoundaries = () => {
     var curr = new Date();
-    var first = curr.getDate() - curr.getDay();
-    var last = first + 6;
-
-    var firstday = new Date(curr.setDate(first)).toUTCString();
-    var lastday = new Date(curr.setDate(last)).toUTCString();
+    var firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
+    var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay()+6));
 
     return [firstday, lastday];
 }
@@ -38,16 +35,12 @@ class MainPage extends Component{
         sessionsList: [],
         tasksList: [], 
         tasksById: {},
-        statsType: statsTypes.WEEK,
-    }
-
-    taskIdToObj = (id) => {
-        return this.state.tasksById[id]
+        statsType: statsTypes.DAYS,
     }
 
     getSessionsBoundaries = () => {
         switch (this.state.statsType) {
-            case statsTypes.WEEK:
+            case statsTypes.DAYS:
                 return currentWeekBoundaries();
         }
     }
@@ -67,7 +60,7 @@ class MainPage extends Component{
         this.getTasksFromBackend();
         let startDate = null; 
         let endDate = null;
-        [startDate, endDate] = this.getSessionsBoundaries();
+        //[startDate, endDate] = this.getSessionsBoundaries();
 
         getSessions(startDate, endDate, resp => {
             this.setState({
@@ -87,7 +80,7 @@ class MainPage extends Component{
         <div>
             <TasksMenu tasks={this.state.tasksList} onAddTask={this.addTask}/>        
             <div className="line"></div>
-            <Stats sessions={this.state.sessionsList} taskIdToObj={this.taskIdToObj} type={statsTypes.WEEK}/>
+            <Stats sessions={this.state.sessionsList} tasksById={this.state.tasksById} type={statsTypes.DAYS}/>
         </div>
 
         return (htmlString);

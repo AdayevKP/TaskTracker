@@ -7,23 +7,31 @@ import bindMethods from '../tools/bindMethods'
 import { Component } from 'react';
 
 
-const Task = (props) => {
-    return (
-        <button 
-            key={uniqueId()} 
-            className="task-button" 
-            style={{color: props.color, border: '1px solid ' + props.color}}>
-            {props.name}
-        </button>
-    );
+class Task extends Component {
+    state = {
+        active: false,
+    }
+
+    toggleState = () => {
+        this.setState(prevState => ({active: !prevState.active}))
+    }
+
+    render () {
+        return (
+            <button 
+                key={uniqueId()} 
+                className="task-button" 
+                style={{
+                    color: this.state.active ? 'black' : this.props.color, 
+                    border: '1px solid ' + this.props.color,
+                }}
+                onClick={this.toggleState}
+            >
+                {this.props.name}
+            </button>
+        );
+    }
 }
-
-
-const TasksList = (props) => {
-    return (
-        <ul> {Array.from(props.tasks, (task) => <Task name={task.name} color={task.color}/>)} </ul>
-    );
-};
 
 
 class TasksMenu extends Component {
@@ -32,7 +40,9 @@ class TasksMenu extends Component {
             <header className="menu">
                 <div className="menu left-menu">
                     <div className="tasks">
-                        <TasksList tasks={this.props.tasks}/>
+                        <ul> 
+                            {this.props.tasks.map((task) => <Task name={task.name} color={task.color}/>)} 
+                        </ul>
                     </div>
                     
                     <button className="menu-button add" onClick={this.props.onAddTask}>+</button>
