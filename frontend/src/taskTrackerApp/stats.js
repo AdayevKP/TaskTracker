@@ -24,7 +24,7 @@ const getDate = (date) => {
 }
 
 
-const groupSessionsByDays = (data, firstDay=null, lastDay=null) => {
+const groupSessionsByDays = (data, firstDay, lastDay) => {
     const sessions = data;
     sessions.sort((a, b) => a.start - b.start);
 
@@ -90,7 +90,7 @@ const ByDays = (props) => {
         return (<div/>);
     }
 
-    const groupedSessions = groupSessionsByDays(props.sessions);
+    const groupedSessions = groupSessionsByDays(props.sessions, props.from, props.to);
     
     return (
         <div> 

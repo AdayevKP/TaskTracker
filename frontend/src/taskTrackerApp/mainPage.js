@@ -14,7 +14,7 @@ const currentWeekBoundaries = () => {
     var firstday = new Date(curr.setDate(curr.getDate() - curr.getDay()));
     var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay()+6));
 
-    return [firstday, lastday];
+    return {startDate: firstday, endDate: lastday};
 }
 
 
@@ -24,6 +24,7 @@ class MainPage extends Component{
         tasksList: [], 
         tasksById: {},
         statsType: statsTypes.DAYS,
+        statsBounds: {}
     }
 
     getSessionsBoundaries = () => {
@@ -45,18 +46,19 @@ class MainPage extends Component{
     }
 
     getSessionsFromBackend = () => {
-        let startDate = null; 
-        let endDate = null;
-        //[startDate, endDate] = this.getSessionsBoundaries();
-
-        getSessions(startDate, endDate, resp => {
-            this.setState({
-                sessionsList: resp.data.data
-            })
-        })
+        getSessions(
+            this.state.statsBounds.startDate, 
+            this.state.statsBounds.endDate, 
+            resp => {
+                this.setState({
+                    sessionsList: resp.data.data
+                })
+            }
+        )
     }
     
     componentDidMount () {
+        this.setState({statsBounds: this.getSessionsBoundaries()});
         this.getTasksFromBackend();
         this.getSessionsFromBackend();
     }
@@ -74,9 +76,19 @@ class MainPage extends Component{
     render() {
         const htmlString = 
         <div>
-            <TasksMenu tasks={this.state.tasksList} onAddTask={this.handleAddTask} onTaskToggled={this.startTimer}/>        
+            <TasksMenu 
+                tasks={this.state.tasksList} 
+                onAddTask={this.handleAddTask} 
+                onTaskToggled={this.startTimer}
+            />        
             <div className="line"></div>
-            <Stats sessions={this.state.sessionsList} tasksById={this.state.tasksById} type={statsTypes.DAYS}/>
+            <Stats 
+                from={this.state.statsBounds.startDate}
+                to={this.state.statsBounds.endDate}
+                sessions={this.state.sessionsList} 
+                tasksById={this.state.tasksById} 
+                type={statsTypes.DAYS}
+            />
         </div>
 
         return (htmlString);

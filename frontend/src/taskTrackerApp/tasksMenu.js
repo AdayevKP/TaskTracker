@@ -45,7 +45,8 @@ class Task extends Component {
 
 class TasksMenu extends Component {
     state = {
-        tasks: []
+        tasks: [],
+        newTaskName: ''
     }
 
     componentDidMount () {
@@ -70,9 +71,9 @@ class TasksMenu extends Component {
         }))
     }
 
-    handleAddTask = (name, color) => {
+    handleAddTask = (color) => {
         color = randomColor(); // for debug purposes only
-        name = randomWords(); // for debug purposes only
+        const name = this.state.newTaskName; 
         this.setState(prev => ({
             tasks: [...prev.tasks, {name: name, color: color, active: false}]
         }))
@@ -96,6 +97,11 @@ class TasksMenu extends Component {
                         </ul>
                     </div>
                     
+                    <input 
+                        type="text"  
+                        value={this.state.newTaskName}
+                        onChange={(e) => {this.setState({newTaskName: e.target.value})}}
+                    />
                     <button className="menu-button add" onClick={this.handleAddTask}>+</button>
                 </div>
 
