@@ -1,5 +1,5 @@
 import dateparser
-from datetime import datetime, date
+from datetime import date
 from collections import namedtuple
 from flask_restful import Resource, reqparse
 from flask_api import status
