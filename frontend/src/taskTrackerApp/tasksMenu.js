@@ -3,17 +3,25 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './taskTracker.scss';
 import { uniqueId } from 'lodash';
 
-import bindMethods from '../tools/bindMethods'
 import { Component } from 'react';
+
+import randomWords from 'random-words';  // for debug purposes only
+
+
+//this frunction is for debug purposes only
+function randomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
 
 
 class Task extends Component {
-    state = {
-        active: false,
-    }
-
     toggleState = () => {
-        this.setState(prevState => ({active: !prevState.active}))
+        this.props.onStateToggle(this.props.name)
     }
 
     render () {
@@ -22,8 +30,9 @@ class Task extends Component {
                 key={uniqueId()} 
                 className="task-button" 
                 style={{
-                    color: this.state.active ? 'black' : this.props.color, 
+                    color: this.props.active ? 'black' : this.props.color, 
                     border: '1px solid ' + this.props.color,
+                    background: this.props.active ? this.props.color : 'white' 
                 }}
                 onClick={this.toggleState}
             >
@@ -35,17 +44,59 @@ class Task extends Component {
 
 
 class TasksMenu extends Component {
+    state = {
+        tasks: []
+    }
+
+    componentDidMount () {
+        this.setState({tasks: this.props.tasks})
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({tasks: nextProps.tasks})
+    }
+
+    handleToggleState = (name) => {
+        const changeTaskState = (t) => {
+            t.name == name ? t.active = !t.active : t.active = false;
+            return t;
+        }
+
+        const task = this.state.tasks.find(t => t.name == name)
+        this.props.onTaskToggled(task.id, !task.active)
+
+        this.setState(prev => ({
+            tasks: prev.tasks.map(changeTaskState)
+        }))
+    }
+
+    handleAddTask = (name, color) => {
+        color = randomColor(); // for debug purposes only
+        name = randomWords(); // for debug purposes only
+        this.setState(prev => ({
+            tasks: [...prev.tasks, {name: name, color: color, active: false}]
+        }))
+        this.props.onAddTask(name, color)
+    }
+
     render() {
         return (
             <header className="menu">
                 <div className="menu left-menu">
                     <div className="tasks">
                         <ul> 
-                            {this.props.tasks.map((task) => <Task name={task.name} color={task.color}/>)} 
+                            {this.state.tasks.map((task) => 
+                                <Task 
+                                    name={task.name} 
+                                    color={task.color} 
+                                    active={task.active}
+                                    onStateToggle={this.handleToggleState}
+                                />
+                            )} 
                         </ul>
                     </div>
                     
-                    <button className="menu-button add" onClick={this.props.onAddTask}>+</button>
+                    <button className="menu-button add" onClick={this.handleAddTask}>+</button>
                 </div>
 
                 <div className="menu right-menu">
@@ -53,7 +104,6 @@ class TasksMenu extends Component {
                     <button className="stop-button">Pause</button>
                 </div>
             </header>
-            
         );
     }
 };

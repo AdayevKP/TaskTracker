@@ -12,6 +12,13 @@ const tasksUrl = basePath + '/tasks'
 
 const sessionsUrl = basePath + '/sessions'
 
+const timerUrl = basePath + '/timer'
+
+export const TimerActions = {
+    START: 'start',
+    STOP: 'stop'
+}
+
 
 const saveToken = (request) => {
     // TODO: add exceptions handling
@@ -24,6 +31,15 @@ const saveToken = (request) => {
 const getToken = () => {
     const tkn = localStorage.getItem('token');
     return tkn
+}
+
+
+const getConfig = () => {
+    const token = getToken();
+    const config = {
+        headers: { Authorization: 'Bearer ' + token}
+    };
+    return config
 }
 
 
@@ -60,35 +76,36 @@ export const signUp = (username, password, callBack=onResp, errBack=onErr) => {
 
 
 export const getTasks = (callBack=onResp, errBack=onErr) => {
-    const token = getToken();
-    const config = {
-        headers: { Authorization: 'Bearer ' + token}
-    };
+    const config = getConfig();
     axios.get(tasksUrl, config).then(callBack, errBack);
 }
 
 
 export const getSessions = (startDate=null, endDate=null, callBack=onResp, errBack=onErr) => {
-    const token = getToken();
-    const config = {
-        headers: { Authorization: 'Bearer ' + token},
-        params: {
-            begin_date: startDate,
-            end_date: endDate
-        }
-    };
+    const config = getConfig()
+    config.params = {
+        begin_date: startDate,
+        end_date: endDate
+    }
+
     axios.get(sessionsUrl, config).then(callBack, errBack);
 }
 
 
 export const addTask = (name, color, callBack=onResp, errBack=onErr) => {
-    const token = getToken();
-    const config = {
-        headers: { Authorization: 'Bearer ' + token},
-        params: {
-            name: name,
-            color: color
-        }
-    };
+    const config = getConfig() 
+    config.params = {
+        name: name,
+        color: color
+    }
     axios.put(tasksUrl, {}, config).then(callBack, errBack);
+}
+
+
+export const toggleTimer = (taskId, action, callBack=onResp, errBack=onErr) => {
+    const config = getConfig() 
+    config.params = {
+        action: action,
+    }
+    axios.put(timerUrl + '/' + taskId.toString(), {}, config).then(callBack, errBack);
 }

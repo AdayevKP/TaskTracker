@@ -89,6 +89,6 @@ class Session(Resource):
         db.session.delete(session)
         db.session.commit()
 
-        return response(status_code=status.HTTP_200_OK, message='Session: {} deleted'.format(session.name))
+        return response(status_code=status.HTTP_200_OK, message='Session: {} deleted'.format(session.id))
 
 

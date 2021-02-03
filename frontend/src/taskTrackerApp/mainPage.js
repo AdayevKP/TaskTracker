@@ -4,9 +4,8 @@ import { Component } from 'react';
 
 import TasksMenu from './tasksMenu'
 
-import {getTasks, getSessions, addTask} from '../requests'
+import {getTasks, getSessions, addTask, toggleTimer, TimerActions} from '../requests'
 import Stats, {statsTypes} from './stats';
-import randomWords from 'random-words';  // for debug purposes only
 import { rest } from 'lodash';
 
 
@@ -16,17 +15,6 @@ const currentWeekBoundaries = () => {
     var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay()+6));
 
     return [firstday, lastday];
-}
-
-
-//this frunction is for debug purposes only
-function randomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
 }
 
 
@@ -55,9 +43,8 @@ class MainPage extends Component{
             }
         )
     }
-    
-    componentDidMount () {
-        this.getTasksFromBackend();
+
+    getSessionsFromBackend = () => {
         let startDate = null; 
         let endDate = null;
         //[startDate, endDate] = this.getSessionsBoundaries();
@@ -68,17 +55,26 @@ class MainPage extends Component{
             })
         })
     }
-
-    addTask = (name, color) => {
-        color = randomColor(); // for debug purposes only
-        name = randomWords(); // for debug purposes only
-        addTask(name, color, (_) => this.getTasksFromBackend())
+    
+    componentDidMount () {
+        this.getTasksFromBackend();
+        this.getSessionsFromBackend();
     }
+
+    handleAddTask = (name, color) => {
+        addTask(name, color, () => this.getTasksFromBackend())
+    }
+
+    startTimer = (taskId, start) => {
+        start ? 
+          toggleTimer(taskId, TimerActions.START, () => this.getSessionsFromBackend()) 
+        : toggleTimer(taskId, TimerActions.STOP, () => this.getSessionsFromBackend());
+     }
 
     render() {
         const htmlString = 
         <div>
-            <TasksMenu tasks={this.state.tasksList} onAddTask={this.addTask}/>        
+            <TasksMenu tasks={this.state.tasksList} onAddTask={this.handleAddTask} onTaskToggled={this.startTimer}/>        
             <div className="line"></div>
             <Stats sessions={this.state.sessionsList} tasksById={this.state.tasksById} type={statsTypes.DAYS}/>
         </div>

@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './taskTracker.scss';
 import { uniqueId } from 'lodash';
 
-import bindMethods from '../tools/bindMethods'
 import { Component } from 'react';
 
 
