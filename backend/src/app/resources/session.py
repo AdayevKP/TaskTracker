@@ -72,8 +72,8 @@ class Session(Resource):
 
         session = self.try_find_session(session_id, user)
 
-        session.end = dateparser.parse(body.end) if body.end else session.end
-        session.start = dateparser.parse(body.start) if body.start else session.start
+        session.end = dateparser.parse(body.end) or session.end
+        session.start = dateparser.parse(body.start) or session.start
 
         db.session.commit()
         return response(
