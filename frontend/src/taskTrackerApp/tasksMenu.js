@@ -1,6 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom'; 
 import './taskTracker.scss';
 import { uniqueId } from 'lodash';
+
+import { Component } from 'react';
+
+import randomWords from 'random-words';  // for debug purposes only
+
+
+//this frunction is for debug purposes only
+function randomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
 
 
 class Task extends Component {
@@ -30,8 +46,7 @@ class Task extends Component {
 class TasksMenu extends Component {
     state = {
         tasks: [],
-        newTaskName: '',
-        taskColor: '#808080'
+        newTaskName: ''
     }
 
     componentDidMount () {
@@ -57,7 +72,7 @@ class TasksMenu extends Component {
     }
 
     handleAddTask = (color) => {
-        color = this.state.taskColor;
+        color = randomColor(); // for debug purposes only
         const name = this.state.newTaskName; 
         this.setState(prev => ({
             tasks: [...prev.tasks, {name: name, color: color, active: false}]
@@ -65,47 +80,34 @@ class TasksMenu extends Component {
         this.props.onAddTask(name, color)
     }
 
-    setTaskColor = (s) => {
-        let color = s.target.style.background
-        this.setState(
-            {taskColor: color}
-        )
-    }
-
     render() {
         return (
-            <header className = "headerWrapper">
-                <div className = "left-menu">
-                    <div className = "tasks">
+            <header className="menu">
+                <div className="menu left-menu">
+                    <div className="tasks">
                         <ul> 
-                            { this.state.tasks.map((task) => 
+                            {this.state.tasks.map((task) => 
                                 <Task 
                                     name={task.name} 
                                     color={task.color} 
                                     active={task.active}
-                                    onStateToggle = { this.handleToggleState }
+                                    onStateToggle={this.handleToggleState}
                                 />
                             )} 
                         </ul>
                     </div>
+                    
                     <input 
-                        style = {{ borderColor: this.taskColor }}
-                        className = "input"
-                        type = "text"  
-                        value = {this.state.newTaskName}
-                        onChange = { (e) => { this.setState({ newTaskName: e.target.value }) } }
+                        type="text"  
+                        value={this.state.newTaskName}
+                        onChange={(e) => {this.setState({newTaskName: e.target.value})}}
                     />
-                    <button className = "add-button" onClick = { this.handleAddTask }>+</button>
-                    <div className = "colors">
-                        <div className = "color" onClick = { s => this.setTaskColor(s) } style = {{ background: '#BCC8A7' }}></div>
-                        <div className = "color" onClick = { s => this.setTaskColor(s) } style = {{ background: '#B5C4C6' }}></div>
-                        <div className = "color" onClick = { s => this.setTaskColor(s) } style = {{ background: '#CD9A8F' }}></div>
-                        <div className = "color" onClick = { s => this.setTaskColor(s) } style = {{ background: '#C59E5D' }}></div>
-                    </div>
+                    <button className="menu-button add" onClick={this.handleAddTask}>+</button>
                 </div>
-                <div className = "right-menu">
-                    <p className = "timer">0.00.00</p>
-                    <button className = "stop-button">Pause</button>
+
+                <div className="menu right-menu">
+                    <p className="timer">0.00.00</p>
+                    <button className="stop-button">Pause</button>
                 </div>
             </header>
         );
