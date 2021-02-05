@@ -1,22 +1,11 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom'; 
 import './taskTracker.scss';
 import { uniqueId } from 'lodash';
+import { CirclePicker } from 'react-color';
 
 import { Component } from 'react';
 
-import randomWords from 'random-words';  // for debug purposes only
-
-
-//this frunction is for debug purposes only
-function randomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
+const COLORS = ['#BCC8A7', '#B5C4C6', '#CD9A8F', '#C59E5D'];
 
 
 class Task extends Component {
@@ -46,7 +35,10 @@ class Task extends Component {
 class TasksMenu extends Component {
     state = {
         tasks: [],
-        newTaskName: ''
+        newTaskName: '',
+        currentColor: COLORS[0], 
+        colors: COLORS,
+        showColorPicker: false
     }
 
     componentDidMount () {
@@ -71,9 +63,9 @@ class TasksMenu extends Component {
         }))
     }
 
-    handleAddTask = (color) => {
-        color = randomColor(); // for debug purposes only
-        const name = this.state.newTaskName; 
+    handleAddTask = () => {
+        const color = this.state.currentColor;
+        const name = this.state.newTaskName;
         this.setState(prev => ({
             tasks: [...prev.tasks, {name: name, color: color, active: false}]
         }))
@@ -103,6 +95,18 @@ class TasksMenu extends Component {
                         onChange={(e) => {this.setState({newTaskName: e.target.value})}}
                     />
                     <button className="menu-button add" onClick={this.handleAddTask}>+</button>
+                    <button 
+                        className="menu-button add" 
+                        style={{background: this.state.currentColor}}
+                        onClick={()=>this.setState(prev=>({showColorPicker: !prev.showColorPicker}))}
+                    />
+                    <div>
+                        {this.state.showColorPicker && 
+                        <CirclePicker 
+                            colors={this.state.colors}
+                            onChange={(c)=>this.setState({currentColor: c.hex})}
+                        />}
+                    </div>
                 </div>
 
                 <div className="menu right-menu">
