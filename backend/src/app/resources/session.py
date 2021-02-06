@@ -1,5 +1,5 @@
 import dateparser
-from datetime import datetime, date
+from datetime import date
 from collections import namedtuple
 from flask_restful import Resource, reqparse
 from flask_api import status
@@ -14,9 +14,18 @@ sessions_request_parser.add_argument('begin_date', default='')
 sessions_request_parser.add_argument('end_date', default='')
 SessionsRequest = namedtuple('SessionsRequest', 'begin_date end_date')
 
+session_edit_request_parser = reqparse.RequestParser()
+session_edit_request_parser.add_argument('start', default='')
+session_edit_request_parser.add_argument('end', default='')
+SessionEditRequest = namedtuple('SessionEditRequest', 'start end')
+
 
 def get_session_request():
     return SessionsRequest(**sessions_request_parser.parse_args())
+
+
+def get_session_edit_request():
+    return SessionEditRequest(**session_edit_request_parser.parse_args())
 
 
 class Sessions(Resource):
@@ -59,15 +68,18 @@ class Session(Resource):
     @token_auth.login_required
     def patch(self, session_id):
         user = token_auth.current_user()  # type: UserModel
+        body = get_session_edit_request()
 
         session = self.try_find_session(session_id, user)
-        if not session.active():
-            raise_error_response(status_code=status.HTTP_403_FORBIDDEN, message='session already stopped')
 
-        session.end = datetime.now()
+        session.end = dateparser.parse(body.end) or session.end
+        session.start = dateparser.parse(body.start) or session.start
 
         db.session.commit()
-        return response(status_code=status.HTTP_202_ACCEPTED, message='Session stopped'.format(session))
+        return response(
+            status_code=status.HTTP_202_ACCEPTED,
+            message='Session edited',
+            data=session.as_dict())
 
     @token_auth.login_required
     def delete(self, session_id):
@@ -77,6 +89,6 @@ class Session(Resource):
         db.session.delete(session)
         db.session.commit()
 
-        return response(status_code=status.HTTP_200_OK, message='Session: {} deleted'.format(session.name))
+        return response(status_code=status.HTTP_200_OK, message='Session: {} deleted'.format(session.id))
 
 

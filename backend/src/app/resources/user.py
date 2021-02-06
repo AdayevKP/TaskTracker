@@ -22,7 +22,7 @@ def get_user_info():
 
 class Token(Resource):
     @basic_auth.login_required
-    def post(self):
+    def get(self):
         usr = basic_auth.current_user()
         return response(status_code=status.HTTP_202_ACCEPTED, data={TOKEN: encode_token(usr.as_dict())})
 

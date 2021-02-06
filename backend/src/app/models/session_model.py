@@ -18,3 +18,6 @@ class SessionModel(db.Model):
 
     def active(self):
         return not bool(self.end)
+
+    def stop(self):
+        self.end = datetime.datetime.now()
