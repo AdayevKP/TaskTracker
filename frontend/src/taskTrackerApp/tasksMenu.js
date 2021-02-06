@@ -66,6 +66,9 @@ class TasksMenu extends Component {
     handleAddTask = () => {
         const color = this.state.currentColor;
         const name = this.state.newTaskName;
+        if (!name) {
+            return;
+        }
         this.setState(prev => ({
             tasks: [...prev.tasks, {name: name, color: color, active: false}]
         }))
