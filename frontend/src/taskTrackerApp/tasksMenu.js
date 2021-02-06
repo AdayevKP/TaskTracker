@@ -74,46 +74,39 @@ class TasksMenu extends Component {
 
     render() {
         return (
-            <header className="menu">
-                <div className="menu left-menu">
-                    <div className="tasks">
-                        <ul> 
-                            {this.state.tasks.map((task) => 
-                                <Task 
-                                    name={task.name} 
-                                    color={task.color} 
-                                    active={task.active}
-                                    onStateToggle={this.handleToggleState}
-                                />
-                            )} 
-                        </ul>
-                    </div>
-                    
-                    <input 
-                        type="text"  
-                        value={this.state.newTaskName}
-                        onChange={(e) => {this.setState({newTaskName: e.target.value})}}
-                    />
-                    <button className="menu-button add" onClick={this.handleAddTask}>+</button>
-                    <button 
-                        className="menu-button add" 
-                        style={{background: this.state.currentColor}}
-                        onClick={()=>this.setState(prev=>({showColorPicker: !prev.showColorPicker}))}
-                    />
-                    <div>
-                        {this.state.showColorPicker && 
-                        <CirclePicker 
-                            colors={this.state.colors}
-                            onChange={(c)=>this.setState({currentColor: c.hex})}
-                        />}
-                    </div>
+            <div className="menu left-menu">
+                <div className="tasks">
+                    <ul> 
+                        {this.state.tasks.map((task) => 
+                            <Task 
+                                name={task.name} 
+                                color={task.color} 
+                                active={task.active}
+                                onStateToggle={this.handleToggleState}
+                            />
+                        )} 
+                    </ul>
                 </div>
-
-                <div className="menu right-menu">
-                    <p className="timer">0.00.00</p>
-                    <button className="stop-button">Pause</button>
+                
+                <input 
+                    type="text"  
+                    value={this.state.newTaskName}
+                    onChange={(e) => {this.setState({newTaskName: e.target.value})}}
+                />
+                <button className="menu-button add" onClick={this.handleAddTask}>+</button>
+                <button 
+                    className="menu-button add" 
+                    style={{background: this.state.currentColor}}
+                    onClick={()=>this.setState(prev=>({showColorPicker: !prev.showColorPicker}))}
+                />
+                <div>
+                    {this.state.showColorPicker && 
+                    <CirclePicker 
+                        colors={this.state.colors}
+                        onChange={(c)=>this.setState({currentColor: c.hex, showColorPicker: false})}
+                    />}
                 </div>
-            </header>
+            </div>
         );
     }
 };

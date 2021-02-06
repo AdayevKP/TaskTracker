@@ -76,11 +76,18 @@ class MainPage extends Component{
     render() {
         const htmlString = 
         <div>
-            <TasksMenu 
-                tasks={this.state.tasksList} 
-                onAddTask={this.handleAddTask} 
-                onTaskToggled={this.startTimer}
-            />        
+            <header className="menu">
+                <TasksMenu 
+                    tasks={this.state.tasksList} 
+                    onAddTask={this.handleAddTask} 
+                    onTaskToggled={this.startTimer}
+                />   
+                
+                <div className="menu right-menu">
+                    <p className="timer">0.00.00</p>
+                    <button className="stop-button">Pause</button>
+                </div>     
+            </header>
             <div className="line"></div>
             <Stats 
                 from={this.state.statsBounds.startDate}
