@@ -3,16 +3,14 @@ import axios from 'axios'
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 
-// TODO: Set base path via command line or config file
-const basePath = 'http://127.0.0.1:5000/api/v1'
-const logInUrl = basePath + '/login'
-const signUpUrl = basePath + '/user'
+const BASE_URL     = new URL(process.env.REACT_APP_SERVER_API_URL, process.env.REACT_APP_SERVER_URL);
 
-const tasksUrl = basePath + '/tasks'
+const LOG_IN_URL   = new URL('login',    BASE_URL);
+const SIGN_UP_URL  = new URL('user',     BASE_URL);
+const TASKS_URL    = new URL('tasks',    BASE_URL);
+const SESSIONS_URL = new URL('sessions', BASE_URL);
+const TIMER_URL    = new URL('timer',    BASE_URL);
 
-const sessionsUrl = basePath + '/sessions'
-
-const timerUrl = basePath + '/timer'
 
 export const TimerActions = {
     START: 'start',
@@ -62,7 +60,7 @@ export const logIn = (username, password, callBack=onResp, errBack=onErr) => {
     };
     localStorage.removeItem('token')
     console.log("request token")
-    axios.get(logInUrl, config).then(res => {saveToken(res); callBack(res)}, errBack);
+    axios.get(LOG_IN_URL.href, config).then(res => {saveToken(res); callBack(res)}, errBack);
 }
 
 
@@ -71,13 +69,13 @@ export const signUp = (username, password, callBack=onResp, errBack=onErr) => {
         username: username, 
         password: password
     };
-    axios.post(signUpUrl, data).then(res => {saveToken(res); callBack(res)}, errBack);
+    axios.post(SIGN_UP_URL.href, data).then(res => {saveToken(res); callBack(res)}, errBack);
 } 
 
 
 export const getTasks = (callBack=onResp, errBack=onErr) => {
     const config = getConfig();
-    axios.get(tasksUrl, config).then(callBack, errBack);
+    axios.get(TASKS_URL.href, config).then(callBack, errBack);
 }
 
 
@@ -88,7 +86,7 @@ export const getSessions = (startDate=null, endDate=null, callBack=onResp, errBa
         end_date: endDate
     }
 
-    axios.get(sessionsUrl, config).then(callBack, errBack);
+    axios.get(SESSIONS_URL.href, config).then(callBack, errBack);
 }
 
 
@@ -98,7 +96,7 @@ export const addTask = (name, color, callBack=onResp, errBack=onErr) => {
         name: name,
         color: color
     }
-    axios.put(tasksUrl, {}, config).then(callBack, errBack);
+    axios.put(TASKS_URL.href, {}, config).then(callBack, errBack);
 }
 
 
@@ -107,5 +105,5 @@ export const toggleTimer = (taskId, action, callBack=onResp, errBack=onErr) => {
     config.params = {
         action: action,
     }
-    axios.put(timerUrl + '/' + taskId.toString(), {}, config).then(callBack, errBack);
+    axios.put(TIMER_URL.href + '/' + taskId.toString(), {}, config).then(callBack, errBack);
 }
