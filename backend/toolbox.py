@@ -26,7 +26,7 @@ def parse_args():
     group.add_argument('--venv', action='store_true', help='creates virtual env for python')
     group.add_argument('--run_server', action='store_true', help='starts server')
 
-    return parser.parse_args()
+    return parser.parse_known_args()
 
 
 def check_env():
@@ -51,28 +51,24 @@ def create_env():
     print('Virtual environment successfully created at: {}'.format(venv_path))
 
 
-def run_script(script_path, args=''):
+def run_script(script_path, args=None):
     check_env()
     os.system('{activate_env} && {python} {script} {args}'.format(
         activate_env=ACTIVATE_EVN,
         python=PYTHON,
         script=script_path,
-        args=args))
+        args=' '.join(args or [])))
 
 
-def run(args):
+def run(args, script_args):
     if args.venv:
         create_env()
 
     if args.run_server:
         check_env()
         main_path = os.path.join(os.getcwd(), 'src', 'main.py')
-        run_script(main_path)
-
-    if args.run_server:
-        main_path = os.path.join(os.getcwd(), 'src', 'main.py')
-        run_script(main_path)
+        run_script(main_path, args=script_args)
 
 
 if __name__ == "__main__":
-    run(parse_args())
+    run(*parse_args())

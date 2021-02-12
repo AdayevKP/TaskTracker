@@ -2,12 +2,14 @@
 run server
 
 Usage:
-    server [--debug]
+    server [--host HOST] [--port PORT] [--debug]
     server --help | -h
 
 Options:
-    -d --debug                      Run in debug mode
-    -h --help                       Show this message
+    --debug                      Run in debug mode
+    --port PORT                  Port for server
+    --host HOST                  Host for server
+    --help                       Show this message
 """
 import docopt
 from app import create_app
@@ -15,7 +17,7 @@ from app import create_app
 
 def run(opts):
     app = create_app()
-    app.run(debug=opts['--debug'])
+    app.run(debug=opts['--debug'], host=opts['--host'], port=opts['--port'])
 
 
 if __name__ == "__main__":
