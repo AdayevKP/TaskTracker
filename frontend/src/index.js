@@ -4,12 +4,13 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk'
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import authReducer from './reducers/auth/reducer'
+import trackerAppReducer from './reducers/taskTracker/reducer'
 
 import * as serviceWorker from './tools/serviceWorker';
 import App from './app'
 
 
-const mainReducer = combineReducers({auth: authReducer})
+const mainReducer = combineReducers({auth: authReducer, trackerApp: trackerAppReducer})
 const appStore = createStore(mainReducer, applyMiddleware(thunk));
 
 

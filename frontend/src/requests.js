@@ -111,6 +111,7 @@ export const toggleTimer = (taskId, action, callBack=onResp, errBack=onErr) => {
     axios.put(TIMER_URL.href + '/' + taskId.toString(), {}, config).then(callBack, errBack);
 }
 
+
 export const isAuthorized = () => {
     return !!getToken();
 }
