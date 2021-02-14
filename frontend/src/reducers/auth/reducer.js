@@ -14,7 +14,7 @@ const onAuthorized = (state, action) => {
 
 
 const onAuthFail = (state, action) => {
-    return updateState(state, {isAuthorized: true, error: action.error});
+    return updateState(state, {isAuthorized: false, error: action.error});
 }
 
 

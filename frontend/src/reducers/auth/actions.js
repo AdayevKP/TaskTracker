@@ -27,7 +27,10 @@ const authLogout = () => {
 export const signUpAction = (username, password) => {
     return dispatch => {
         const onSuccess = (r) => dispatch(authSuccess());
-        const onErr = (err) => dispatch(authFail(err))
+        const onErr = (err) => {
+            dispatch(authFail(err));
+            alert(err);
+        }
         signUp(username, password, onSuccess, onErr);
     }
 }
@@ -36,7 +39,10 @@ export const signUpAction = (username, password) => {
 export const logInAction = (username, password) => {
     return dispatch => {
         const onSuccess = (r) => dispatch(authSuccess());
-        const onErr = (err) => dispatch(authFail(err))
+        const onErr = (err) => {
+            dispatch(authFail(err));
+            alert(err);
+        }
         logIn(username, password, onSuccess, onErr);
     }
 }
