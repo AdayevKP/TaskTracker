@@ -51,6 +51,11 @@ const onErr = (err) => {
 }
 
 
+export const logOut = () => {
+    localStorage.removeItem('token');
+}
+
+
 export const logIn = (username, password, callBack=onResp, errBack=onErr) => {
     const config = {
         auth: {
@@ -58,8 +63,6 @@ export const logIn = (username, password, callBack=onResp, errBack=onErr) => {
             password: password
         }
     };
-    localStorage.removeItem('token')
-    console.log("request token")
     axios.get(LOG_IN_URL.href, config).then(res => {saveToken(res); callBack(res)}, errBack);
 }
 

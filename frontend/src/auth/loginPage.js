@@ -1,14 +1,13 @@
-import React from 'react'
-import { Component } from 'react';
-import { Link } from 'react-router-dom';
-
-import {logIn, signUp} from '../requests'
-
-import AuthLayout from './authPageLayout' 
-
 import './auth.css'
 
-import {MAIN_PAGE, SINGUP_PAGE} from '../routes'
+import React from 'react'
+import { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+
+import AuthLayout from './authPageLayout' 
+import {SINGUP_PAGE} from '../routes'
+import * as authActions from '../reducers/auth/actions'
 
 
 class LoginPage extends Component{
@@ -17,13 +16,17 @@ class LoginPage extends Component{
         password: '',
     };
 
-    onLogin = () => {
-        logIn(this.state.username, this.state.password)
+    componentDidMount() {
+        this.props.logOut()
     }
 
-    render() { 
+    onLogin = () => {
+        this.props.logIn(this.state.username, this.state.password)
+    }
+
+    render() {
         const body = 
-            <AuthLayout onSubmit={this.onLogin} action={MAIN_PAGE}>
+            <AuthLayout onSubmit={this.onLogin}>
                 <input 
                     class="form__input" 
                     type="text" 
@@ -43,8 +46,17 @@ class LoginPage extends Component{
                 <button class="form__button" onClick={this.onLogin}>Log in</button>
                 <Link to={SINGUP_PAGE} class="form__button"> Register </Link>
             </AuthLayout>
+            
         return (body);
     }
 }
 
-export default LoginPage;
+
+const actionsToProps = (dispatch) => {
+    return {
+        logOut: ()                   => dispatch(authActions.logOutAction()),
+        logIn:  (username, password) => dispatch(authActions.logInAction(username, password))
+    }
+}
+
+export default connect(null, actionsToProps)(LoginPage);

@@ -1,12 +1,12 @@
 import React from 'react'; 
 import './taskTracker.scss';
 import { Component } from 'react';
+import { connect } from 'react-redux';
 
 import TasksMenu from './tasksMenu'
 
 import {getTasks, getSessions, addTask, toggleTimer, TimerActions} from '../requests'
 import Stats, {statsTypes} from './stats';
-import { rest } from 'lodash';
 
 
 const currentWeekBoundaries = () => {
@@ -58,9 +58,11 @@ class MainPage extends Component{
     }
     
     componentDidMount () {
-        this.setState({statsBounds: this.getSessionsBoundaries()});
-        this.getTasksFromBackend();
-        this.getSessionsFromBackend();
+        if (this.props.isAuthorized) {
+            this.setState({statsBounds: this.getSessionsBoundaries()});
+            this.getTasksFromBackend();
+            this.getSessionsFromBackend();
+        }
     }
 
     handleAddTask = (name, color) => {
@@ -74,6 +76,13 @@ class MainPage extends Component{
      }
 
     render() {
+        if (!this.props.isAuthorized) {
+            return (
+                <div>
+                    Place for demo for not logged in users
+                </div>
+            )
+        }
         const htmlString = 
         <div>
             <header className="menu">
@@ -102,4 +111,11 @@ class MainPage extends Component{
     }
 }
 
-export default MainPage;
+
+const stateToProps = (state) => {
+    return {
+        isAuthorized: state.auth.isAuthorized,
+    }
+}
+
+export default connect(stateToProps)(MainPage);

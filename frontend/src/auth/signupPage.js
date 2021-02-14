@@ -1,14 +1,13 @@
-import React from 'react'
-import { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-
-import {logIn, signUp} from '../requests'
-
-import AuthLayout from './authPageLayout' 
-
 import './auth.css'
 
-import {LOGIN_PAGE, MAIN_PAGE} from '../routes'
+import React from 'react'
+import { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom'; 
+
+import AuthLayout from './authPageLayout'
+import {LOGIN_PAGE} from '../routes'
+import * as authActions from '../reducers/auth/actions'
 
 
 class SignUpPage extends Component{
@@ -19,7 +18,7 @@ class SignUpPage extends Component{
     };
 
     onSignUp = () => {
-        signUp(this.state.username, this.state.password);
+        this.props.signUp(this.state.username, this.state.password);
     }
 
     render() { 
@@ -57,4 +56,11 @@ class SignUpPage extends Component{
     }
 }
 
-export default SignUpPage;
+
+const actionsToProps = (dispatch) => {
+    return {
+        signUp:  (username, password) => dispatch(authActions.signUpAction(username, password))
+    }
+}
+
+export default connect(null, actionsToProps)(SignUpPage);
