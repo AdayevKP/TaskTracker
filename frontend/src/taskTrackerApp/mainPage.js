@@ -58,11 +58,9 @@ class MainPage extends Component{
     }
     
     componentDidMount () {
-        if (this.props.isAuthorized) {
-            this.setState({statsBounds: this.getSessionsBoundaries()});
-            this.getTasksFromBackend();
-            this.getSessionsFromBackend();
-        }
+        this.setState({statsBounds: this.getSessionsBoundaries()});
+        this.getTasksFromBackend();
+        this.getSessionsFromBackend();
     }
 
     handleAddTask = (name, color) => {

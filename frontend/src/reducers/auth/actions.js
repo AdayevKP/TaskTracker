@@ -1,4 +1,4 @@
-import {signUp, logIn, logOut} from '../../requests'
+import {signUp, logIn, logOut, isAuthorized} from '../../requests'
 import * as actionTypes from './actionsTypes';
 
 
@@ -51,5 +51,14 @@ export const logOutAction = () => {
     return dispatch => {
         logOut();
         dispatch(authLogout());
+    }
+}
+
+
+export const checkAuthAction = () => {
+    return dispatch => {
+        if (isAuthorized()) {
+            dispatch(authSuccess());
+        }
     }
 }
